@@ -10,3 +10,7 @@ in the command line in your root directory.
 To run my program simply run:
 python Project1.py
 in the command line while in the same directory as my file.
+
+If you have dificulty installing the Library dependencies I have also encluded a bare bones version to run it enter:
+python Project1Simple.py
+in the command line while in the same directory as my file.
