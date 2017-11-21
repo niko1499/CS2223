@@ -7,32 +7,26 @@ from memory_profiler import profile
 import sys
 import math
 import copy
-#print intro for program
 
-
-
-
-def dist(a,b):
+def dist(a,b):#helper function for euclidian distance
     return math.sqrt((a[0]-b[0])**2+(a[1]-b[1])**2)
 
-def closestPairBF(array):
+def closestPairBF(array):#finds the closest distance by checking all possible paris
     i=0
-    result=[99999999,0,0]
-    while i <len(array):
+    result=[float('inf'),0,0]
+    while i <len(array):#loop through first checking element
         j=i+1
-        while j <len(array):
+        while j <len(array):#loop through uncompaired other elements
             d = dist(array[i],array[j])
-            if d<result[0]:
+            if d<result[0]:#if smaller save
                 result=[d,i,j]
             j=j+1
         i=i+1
     r= [result[0],array[result[1]],array[result[2]]]
-    return r[0]
+    return r[0]#return the distance
 
-def closestPairRec(P,Q):
-
+def closestPairRec(P,Q):#finds the closest distance recursively
     if len(P)<=3:
-
         result=closestPairBF(P)
     else:
         x=0
@@ -40,51 +34,44 @@ def closestPairRec(P,Q):
         QL=[]
         PR=[]
         QR=[]
-        while x <len(P)/2:
+        while x <len(P)/2:#copy first half of input into left sub array
             PL.append(P[x])
             QL.append(Q[x])
             x=x+1
-
-        while x<len(P):
+        while x<len(P):#copy second half of input into right sub array
             PR.append(P[x])
             QR.append(Q[x])
             x=x+1
-
-        DL=closestPairRec(PL,QL)
+        DL=closestPairRec(PL,QL)#recursive call
         DR=closestPairRec(PR,QR)
-        d=min(DL,DR)
-        n=int(len(P))
-
-        m=P[(n/2)-1][0]
-        S=[]
-        num=len(Q)
+        d=min(DL,DR)#find which recursive call had the smaller result
+        n=int(len(P))#save length of input
+        m=P[(n/2)-1][0]#find the half way value of p.x
+        S=[]#setup array 
         #copy all the points of Q for which |x-m|<d into array S[0...num-1
-        for element in Q:
+        for element in Q:#copy elements of Q for which the x-m<d
             if math.fabs(element[0]-m)<d:
                 S.append(element)
-        dminsq=d**2
+                print S
+        dminsq=d**2#square the smaller recursive result
+        num = len(S)
         i=0
-        k=0
-        while i < num-2:
-            k = i + 1
+        k=1
+        while i < num-2:#loop through and find the shortest answer
             while (k<= num-1 )and(((S[k][1]-S[i][1])**2) < dminsq):
-                k=k+1
-                print(((S[k][0]-S[i][0])**2))
-                print((S[k][1]-S[i][1])**2)
-                var=(((S[k][0]-S[i][0])**2)+((S[k][1]-S[i][1])**2))
+                var=dist(S[k],S[i])
                 dminsq=min(var,dminsq)
-                #k=k+1
-            #i = i + 1
+                k=k+1
+            i=i+1
         result=math.sqrt(dminsq)
-
-    return result
+    return result**2#return the distance
 
 def effREC(points):#function to test the recursive function
     print('\nTesting Recursive\n')
-    P=copy.copy(points)
+    P=copy.copy(points)#copy the data so it can be sorted
     Q=copy.copy(points)
-    P.sort(key=lambda tup: tup[0])
-    Q.sort(key=lambda tup: tup[1])
+    P.sort(key=lambda tup: tup[0])#sort by x
+    Q.sort(key=lambda tup: tup[1])#sort by y
     t0=time.time()
     result=closestPairRec(P,Q)
     t1=time.time()
@@ -98,14 +85,13 @@ def effBF(points):#function to test the brute force function
     result=closestPairBF(points)
     t1=time.time()
     T=t1-t0
-    print('The distance of theclosest pair: '+str(result)+' Was calculated in time: '+str(T)+' seconds.\nMemory used displayed above.\n')
+    print('The distance of the closest pair: '+str(result)+' Was calculated in time: '+str(T)+' seconds.\nMemory used displayed above.\n')
     return
 
 
 if __name__ == '__main__':
     print('\nCS2223 Project2 Nikolas Gamarra')
     print('This program finds two closest points in a set of n points\n')
-
     if len(sys.argv)>1:
         filename=str(sys.argv[1])
     else:
@@ -113,38 +99,23 @@ if __name__ == '__main__':
     try:  # check of invalid inputs
         f = open(filename, "r")
         array = f.read()
-        # print 't1'
-        # print f.read()
         for char in "][":
             array = array.replace(char, '')
-
         array.split("),(")
         for char in ")(":
             array = array.replace(char, '')
-
-            # print 't2'
         array.split(",")
-        # print array
-        # print len(array)
         array = array.split(',')
-        # print 't3'
-        # print array
-        # print len(array)
-        if len(array) % 2 != 0:
+        if len(array) % 2 != 0:#check that there is an even nuber of numbers in the array
             raise ValueError
         i = 0
         newArray = []
-        while i < len(array):
-            x = int(array[i])
-            y = int(array[i + 1])
-            point = (x, y)
-            newArray.append(point)
+        while i < len(array):#run through the array
+            x = int(array[i])#extract x as an int
+            y = int(array[i + 1])#extract y as an int
+            point = (x, y)# put into tupl
+            newArray.append(point)#add tupl to array 
             i = i + 2
-
-
-            #  if not isinstance(n,int):
-            #     raise ValueError
-        #break
     except IOError:
         print'Could no read file:', filename  # Primpt user to correct their input
         sys.exit()
@@ -153,7 +124,7 @@ if __name__ == '__main__':
         sys.exit()
     else:
         #break
-        print '\nThe input is:\n'
+        print '\nThe input from ' +filename+' is: \n'
         print newArray
         effBF(newArray)
         effREC(newArray)
