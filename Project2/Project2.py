@@ -6,7 +6,7 @@ from memory_profiler import memory_usage
 from memory_profiler import profile
 import sys
 import math
-
+import copy
 #print intro for program
 print('\nCS2223 Project2 Nikolas Gamarra')
 print('This program finds two closest points in a set of n points\n')
@@ -82,51 +82,60 @@ def closestPairBF(array):
     r= [result[0],array[result[1]],array[result[2]]]
     return r
 
-def oneToTwo(array):
-    P=[]
-    Q=[]
-    for element in array:
-        P.append(element[0])
-        Q.append(element[1])
-    result=[P,Q]
-    return result
-
-def twoToOne(P,Q):
-    i=0
-    result=[]
-    while i < len(P):
-        result.append((P[i],Q[i]))
-    return result
-
 @profile
 def closestPairRec(P,Q):
+    print 'y'
+    print P
+    print 'fuck'
     if len(P)<=3:
-        array=twoToOne(P,Q)
-        result=closestPairBF(array)
+
+        result=closestPairBF(P)
     else:
         i=0
+        PL=[]
+        QL=[]
+        PR=[]
+        QR=[]
         while i <len(P)/2:
-            PL=P[i]
-            QL=Q[i]
+            PL.append(P[i])
+            QL.append(Q[i])
             i=i+1
+            print i
+            print QL
 
         while i<len(P):
-            PR=P[i]
-            QR=Q[i]
-
-        print 'helo'
-        print PL
-        print PR
-        result=0
-
-
-    return result
+            PR.append(P[i])
+            QR.append(Q[i])
+            i=i+1
+            print i
+            print QR
+        DL=closestPairRec(PL,QL)
+        DR=closestPairRec(PR,QR)
+        d=min(DL,DR)
+        m=P[[n/2]-1][0]
+        s=[]
+        num=len(Q)
+        for element in Q:
+            if math.abs(x-m)<d:
+                s.append(element)
+        dminsq=d**2
+        x=0
+        while x < num-2:
+            k=x+1
+            while k<= num-1 and (S[k][1]-S[i][1])**2<dminsq:
+                dminsp=min((S[k][0]-s[i][0])**2+(S[k][1]-S[i][1])**2,dminsq)
+                k=k+1
+            x=x+1
+    return math.sqrt(dminsq)
 
 def effREC(points):#function to test the recursive function
     print('\nTesting Recursive\n')
-    r=oneToTwo(points)
+    P=copy.copy(points)
+    Q=copy.copy(points)
+    P.sort(key=lambda tup: tup[0])
+    Q.sort(key=lambda tup: tup[1])
     t0=time.time()
-    result=closestPairRec(r[0],r[1])
+    result=closestPairRec(P,Q)
     t1=time.time()
     T=t1-t0
     print('The closest pair[dist,(x,y),(x,y)]: '+str(result)+' Was calculated in time: '+str(T)+' seconds.\nMemory used displayed above.\n')
@@ -140,5 +149,5 @@ def effBF(points):#function to test the brute force function
     T=t1-t0
     print('The closest pair[dist,(x,y),(x,y)]: '+str(result)+' Was calculated in time: '+str(T)+' seconds.\nMemory used displayed above.\n')
     return
-effREC(newArray)
 effBF(newArray)
+effREC(newArray)
