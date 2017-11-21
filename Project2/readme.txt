@@ -8,3 +8,6 @@ in the command line while in the same directory as my file.
 
 The program will open input.txt at default. You can specify another file simply by typing its name after the python file:
 python Project2.py input2.txt
+
+
+The inputs I tested can be found in the inputX.txt files where X is replaced with a number.
