@@ -52,7 +52,6 @@ def closestPairRec(P,Q):#finds the closest distance recursively
         for element in Q:#copy elements of Q for which the x-m<d
             if math.fabs(element[0]-m)<d:
                 S.append(element)
-                print S
         dminsq=d**2#square the smaller recursive result
         num = len(S)
         i=0
