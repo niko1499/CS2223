@@ -10,4 +10,4 @@ The program will open input.txt at default. You can specify another file simply 
 python Project2.py input2.txt
 
 
-The inputs I tested can be found in the inputX.txt files where X is replaced with a number.
+The inputs I tested can be found in the inputX.txt files where X is replaced with a number. Including both the provided arrays as input.txt and input2.txt

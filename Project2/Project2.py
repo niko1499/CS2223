@@ -59,11 +59,11 @@ def closestPairRec(P,Q):#finds the closest distance recursively
         while i < num-2:#loop through and find the shortest answer
             while (k<= num-1 )and(((S[k][1]-S[i][1])**2) < dminsq):
                 var=dist(S[k],S[i])
-                dminsq=min(var,dminsq)
+                dminsq=min(var**2,dminsq)
                 k=k+1
             i=i+1
         result=math.sqrt(dminsq)
-    return result**2#return the distance
+    return result#return the distance
 
 def effREC(points):#function to test the recursive function
     print('\nTesting Recursive\n')
@@ -125,5 +125,6 @@ if __name__ == '__main__':
         #break
         print '\nThe input from ' +filename+' is: \n'
         print newArray
+        print '\nLength: '+str(len(newArray))
         effBF(newArray)
         effREC(newArray)
