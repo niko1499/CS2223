@@ -75,7 +75,7 @@ def effREC(points):#function to test the recursive function
     result=closestPairRec(P,Q)
     t1=time.time()
     T=t1-t0
-    print('The distance of the closest pair: '+str(result)+' Was calculated in time: '+str(T)+' seconds.\nMemory used displayed above.\n')
+    print('The distance of the closest pair: '+str(result)+' Was calculated in time: '+str(T)+' seconds.\n')
     return
 
 def effBF(points):#function to test the brute force function
@@ -84,7 +84,7 @@ def effBF(points):#function to test the brute force function
     result=closestPairBF(points)
     t1=time.time()
     T=t1-t0
-    print('The distance of the closest pair: '+str(result)+' Was calculated in time: '+str(T)+' seconds.\nMemory used displayed above.\n')
+    print('The distance of the closest pair: '+str(result)+' Was calculated in time: '+str(T)+' seconds.\n')
     return
 
 
