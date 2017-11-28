@@ -7,16 +7,39 @@ import math
 from memory_profiler import memory_usage
 from memory_profiler import profile
 
+global carryCapacity = 6
 @profile
-def ES(items):# Exhaustive Search
-    return
+def ES(weights,values,array):# Exhaustive Search
+    global carryCapacity
+    i=1
+    n=len(weights)
+    while i < 2**n:
+        j=n
+        tempWeight=0
+        tempValue=0
+        while(array[j]!=0 and j>0):
+            array[j]=0
+            j=j-1
+        array[j]=1
+        for k range(1 to n):
+            if(array[k]==1:
+                    tempWeight=tempWeight+weights[k]
+                    temValue=tempValue+values[k]
+        if(tempValue>bestValue and tempWeight <= carryCapacity):
+            bestValue=tempValue
+            bestWeight=tempWeight
+
+        result=array
+    return result
 
 @profile
 def DP(items):#Dynamic Programming
+    global carryCapacity
     return
 
 @profile
 def MY(items):#Alternative Function
+    global carryCapacity
     return
 
 def testAll(data):#function to test all 3 functions
