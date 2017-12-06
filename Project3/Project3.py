@@ -4,13 +4,11 @@
 import time
 import sys
 import math
-#from memory_profiler import memory_usage
-#from memory_profiler import profile
 import itertools
 from itertools import combinations
 from itertools import permutations
 
-def ES(carryCapacity,weights,values):
+def ES(carryCapacity,weights,values):#Exhaustive Search Implementation
     n=len(weights)
     itemResult=[]
     x=0
@@ -48,8 +46,7 @@ def ES(carryCapacity,weights,values):
     result=(itemResult,highestValue,highestWeight)
     return result
 
-#@profile
-def DP(carryCapacity,weights,values):#dynamic programming
+def DP(carryCapacity,weights,values):#dynamic programming implementation
     n=len(weights)
     K = [[0 for x in range((carryCapacity) + 1)] for x in range(n + 1)]
     # Build table K[][] in bottom up manner
@@ -66,8 +63,6 @@ def DP(carryCapacity,weights,values):#dynamic programming
 
     return values,K[n][carryCapacity],values
 
-
-#@profile
 def MY(carryCapacity,weights,values,n):#Alternative Function
     # Returns the maximum value that can be put in a knapsack of
     # capacity W
@@ -90,57 +85,57 @@ def MY(carryCapacity,weights,values,n):#Alternative Function
     return result
 
 def testAll(carryCapacity,weights,values):#function to test all 3 functions
+    #Test First Alg
     print('\n------------------------------------------------------------------------')
     print('\nTesting Exhaustive Search\n')
-    t0=time.time()
+    t0=time.time()#start time
     resultES=ES(carryCapacity,weights,values)
-    t1=time.time()
-    T=t1-t0
-    print('The following items were selected: '+str(resultES[0]))
-    print('Value: '+str(resultES[1]))
-    print('Weight: '+str(resultES[2]))
+    t1=time.time()#end time
+    T=t1-t0#find difference
+    print('Selected Items: '+str(resultES[0]))
+    print('Max Value: '+str(resultES[1]))
+    print('Max Weight: '+str(resultES[2]))
     print('The answer was calculated in time: '+str(T)+' seconds.\n')
-    print(str(T))
+    print(str(T))#print again for easy copy paste
 
+    #Test Second Alg
     print('\n------------------------------------------------------------------------')
     print('\nTesting Dynamic Programming\n')
     t0=time.time()
     resultDP=DP(carryCapacity,weights,values)
     t1=time.time()
     T=t1-t0
-    #print(resultDP)
-
-    print('The following items were selected: ' + str(resultDP[0]))
-    print('Value: ' + str(resultDP[1]))
-    #print('Weight: ' + str(resultDP[2]))
+    #print('Selected Items:' + str(resultDP[0]))
+    print('Max Value: ' + str(resultDP[1]))
+    #print('Max Weight: ' + str(resultDP[2]))
     print('The answer was calculated in time: ' + str(T) + ' seconds.\n')
     print(str(T))
 
+    #Test Thrid Alg
     print('\n------------------------------------------------------------------------')
     print('\nTesting My Function\n')
     t0=time.time()
     resultMY=MY(carryCapacity,weights,values,int(len(values)))
     t1=time.time()
     T=t1-t0
-    #print('The following items were selected: ' + str(result[0]))
-    print('Value: ' + str(resultMY))
-    #print('Weight: ' + str(resultMY))
+    #print('Selected Items: ' + str(result[0]))
+    print('Max Value: ' + str(resultMY))
+    #print('Max Weight: ' + str(resultMY))
     print('The answer was calculated in time: ' + str(T) + ' seconds.\n')
     print(str(T))
     print('\n------------------------------------------------------------------------')
-
     return
 
 
-if __name__ == '__main__':
+if __name__ == '__main__':#main function starts program, interprets user input, reads and formats input
     print('\nCS2223 Project3 Nikolas Gamarra')
     print('This program finds the optimal solution to the knapsack problem and tests 3 ways of doing it\n')
     if len(sys.argv)>2:
         raise ValueError
     if len(sys.argv)>1:
-        filename=str(sys.argv[1])
+        filename=str(sys.argv[1])#select a specific input
     else:
-        filename="input-1.txt"
+        filename="input-1.txt"#default file
     try:  # check of invalid inputs
         f = open(filename, "r")
         array = f.read()
@@ -154,34 +149,26 @@ if __name__ == '__main__':
         weights=tempArray[1]
         values=tempArray[2]
 
-        weights = weights.split(',')
+        weights = weights.split(',')# split by specified character
         values = values.split(',')
 
-        #for w in weights:
-        #    w=int(w)
-        #for v in values:
-        #    v=int(v)
-        Ivalues = [int(v) for v in values]
+        Ivalues = [int(v) for v in values]#correct strings to int
         Iweights = [int(w) for w in weights]
 
-        #if len(array) % 2 != 0:#check that there is an even nuber of numbers in the array
-        #    raise ValueError
-        i = 0
         if len(weights) != len(values):
             raise ValueError
 
     except IOError:
-        print ("Could no read file:"+str(filename))# Primpt user to correct their input
+        print ("Could not read file:"+str(filename))# Primpt user to correct their command line input
         sys.exit()
     except ValueError:
-        print ("Value Error: make sure input is valid")
+        print ("Value Error: make sure input format is valid")# Prompt user to check their input file structure
         sys.exit()
-    else:
-        #break
-        carryCapacity = int(carryCapacity)
+    else:#no errors
+        carryCapacity = int(carryCapacity)#correct strings to int
         print ('\nThe input from ' +filename+' is: ')
         print ('   Carry Capacity: ' +str(carryCapacity))
         print ('   Weights: ' +str(weights))
         print ('   Values:  ' +str(values))
         print ('   Number of items: '+str(len(weights)))
-        testAll(carryCapacity,Iweights,Ivalues)
+        testAll(carryCapacity,Iweights,Ivalues)# make the call to the main tester function
