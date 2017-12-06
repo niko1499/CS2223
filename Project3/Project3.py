@@ -17,8 +17,8 @@ def ES(carryCapacity,weights,values):
     array=[]
     lastAttempt=[]
     while x < n:
-        w=int(weights[x])
-        v=int(values[x])
+        w=(weights[x])
+        v=(values[x])
         tup=(w,v)
         array.append(tup)
         x=x+1
@@ -35,35 +35,15 @@ def ES(carryCapacity,weights,values):
         itemIndex=0
         runningWeight=0
         runningValue=0
-        print("NEW ATTEMPT______________________")
-        print(attempt)
-
         while itemIndex<n:#for the items in this attempt
-
-            print(itemIndex)
-            if(int(int(attempt[itemIndex][0])+runningWeight)<=int(carryCapacity)):
-                runningWeight=runningWeight+int(attempt[itemIndex][0])#add the weight
-                runningValue=runningValue+int(attempt[itemIndex][1])#add the value
-
+            if(((attempt[itemIndex][0])+runningWeight)<=(carryCapacity)):
+                runningWeight=runningWeight+(attempt[itemIndex][0])#add the weight
+                runningValue=runningValue+(attempt[itemIndex][1])#add the value
                 if(runningValue>=highestValue):
-                    print('new highest******************************************************************')
                     itemResult=attempt
                     highestValue=runningValue
                     highestWeight=runningWeight
-
-                    #del attempt[itemIndex:]
-
                     itemResult=attempt[0:itemIndex+1]
-                    #i=0
-                    #while( i < n):
-                    #    itemResult.append(attempt[i])
-                    #    i=i+1
-            print('test')
-            print('capacity: ' + str(carryCapacity))
-            print('runningWeight: ' + str(runningWeight))
-            print('  runningValue:  ' + str(runningValue))
-            print('  highest val: ' + str(highestValue))
-
             itemIndex=itemIndex+1
     result=(itemResult,highestValue,highestWeight)
     return result
@@ -71,15 +51,15 @@ def ES(carryCapacity,weights,values):
 #@profile
 def DP(carryCapacity,weights,values):#dynamic programming
     n=len(weights)
-    K = [[0 for x in range(int(carryCapacity) + 1)] for x in range(n + 1)]
+    K = [[0 for x in range((carryCapacity) + 1)] for x in range(n + 1)]
     # Build table K[][] in bottom up manner
     items=[]
     for i in range(n + 1):
         for w in range(carryCapacity + 1):
             if i == 0 or w == 0:
                 K[i][w] = 0
-            elif int(weights[i - 1]) <= w:
-                K[i][w] = max(int(values[i - 1]) + K[i - 1][w - int( weights[i - 1])], K[i - 1][w])
+            elif (weights[i - 1]) <= w:
+                K[i][w] = max((values[i - 1]) + K[i - 1][w - ( weights[i - 1])], K[i - 1][w])
 
             else:
                 K[i][w] = K[i - 1][w]
@@ -99,7 +79,7 @@ def MY(carryCapacity,weights,values,n):#Alternative Function
 
     # If weight of the nth item is more than Knapsack of capacity
     # W, then this item cannot be included in the optimal solution
-    if (int(weights[n - 1]) > carryCapacity):
+    if ((weights[n - 1]) > carryCapacity):
         return MY(carryCapacity, weights, values, n - 1)
 
     # return the maximum of two cases:
@@ -107,10 +87,10 @@ def MY(carryCapacity,weights,values,n):#Alternative Function
     # (2) not included
     else:
         return max(values[n - 1] + MY(carryCapacity - weights[n - 1], weights, values, n - 1),MY(carryCapacity, weights, values, n - 1))
-
+    return result
 
 def testAll(carryCapacity,weights,values):#function to test all 3 functions
-    carryCapacity=int(carryCapacity)
+    print('\n------------------------------------------------------------------------')
     print('\nTesting Exhaustive Search\n')
     t0=time.time()
     resultES=ES(carryCapacity,weights,values)
@@ -122,6 +102,7 @@ def testAll(carryCapacity,weights,values):#function to test all 3 functions
     print('The answer was calculated in time: '+str(T)+' seconds.\n')
     print(str(T))
 
+    print('\n------------------------------------------------------------------------')
     print('\nTesting Dynamic Programming\n')
     t0=time.time()
     resultDP=DP(carryCapacity,weights,values)
@@ -135,6 +116,7 @@ def testAll(carryCapacity,weights,values):#function to test all 3 functions
     print('The answer was calculated in time: ' + str(T) + ' seconds.\n')
     print(str(T))
 
+    print('\n------------------------------------------------------------------------')
     print('\nTesting My Function\n')
     t0=time.time()
     resultMY=MY(carryCapacity,weights,values,int(len(values)))
@@ -142,9 +124,11 @@ def testAll(carryCapacity,weights,values):#function to test all 3 functions
     T=t1-t0
     #print('The following items were selected: ' + str(result[0]))
     print('Value: ' + str(resultMY))
-    print('Weight: ' + str(resultMY))
+    #print('Weight: ' + str(resultMY))
     print('The answer was calculated in time: ' + str(T) + ' seconds.\n')
     print(str(T))
+    print('\n------------------------------------------------------------------------')
+
     return
 
 
@@ -194,6 +178,7 @@ if __name__ == '__main__':
         sys.exit()
     else:
         #break
+        carryCapacity = int(carryCapacity)
         print ('\nThe input from ' +filename+' is: ')
         print ('   Carry Capacity: ' +str(carryCapacity))
         print ('   Weights: ' +str(weights))
